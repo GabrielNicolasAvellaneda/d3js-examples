@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Three Little Circles</title>
+		<meta charset="UTF-8">
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+	</head>
+	<body>
+		<svg width="720" height="120">
+			<circle cx="40" cy="60" r="10"></circle>
+			<circle cx="80" cy="60" r="10"></circle>
+			<circle cx="120" cy="60" r="10"></circle>
+		</svg>
+		<br />	
+		<button id="example1">Example 1</button>
+		<button id="example2">Example 2</button>
+		<button id="example3">Example 3</button>
+		<button id="example4">Example 4</button>
+		<button id="example5">Example 5</button>
+		<script type="text/javascript">
+			$("#example1").click(function () {
+				var circle = d3.selectAll("circle");
+				circle.style("fill", "steelblue");
+				circle.attr("r", 30);
+			});
+
+			$("#example2").click(function () {
+				var circle = d3.selectAll("circle");
+				circle.style("fill", "steelblue");
+				circle.attr("cx", function () { return Math.random() * 720});
+			});
+
+			$("#example3").click(function () {
+				var circle = d3.selectAll("circle");
+				circle.style("fill", "steelblue");
+				circle.data([32, 57, 112]);
+				circle.attr("r", function (d) { return Math.sqrt(d); });
+			});
+
+			$("#example4").click(function () {
+				var svg = d3.select("svg");
+				var circle = svg.selectAll("circle").data([32, 57, 112, 293]);
+				var circleEnter = circle.enter().append("circle");
+				circleEnter.attr("cy", 60);
+				circleEnter.attr("cx", function (d, i) { return i * 100 + 30; });
+				circleEnter.attr("r", function (d) { return Math.sqrt(d); });
+			});
+			$("#example5").click(function () {
+				var svg = d3.select("svg");
+				var circle = svg.selectAll("circle").data([32, 57]);
+				circle.exit().remove();
+			});
+		</script>
+	</body>
+</html>

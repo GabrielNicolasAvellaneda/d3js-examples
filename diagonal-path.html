@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF8">
+		<script src="d3.js"></script>
+		<style>
+			body {
+				background-color: darkgrey;
+			}
+
+			svg { 
+				background-color: white;
+			}
+
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var width = 280;
+			var height = 280;
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", width)
+						.attr("height", height);
+
+			var diagonal = d3.svg.diagonal()
+								.source({x: 10, y: 10})
+								.target({x: 270, y: 270});
+
+			svg.append("path")
+					.attr("fill", "none")
+					.attr("stroke", "black")
+					.attr("d", diagonal);
+		</script>
+	</body>
+</html>

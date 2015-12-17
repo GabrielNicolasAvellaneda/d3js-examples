@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF8">
+		<script src="d3.js"></script>
+		<style>
+			body {
+				background-color: DarkGray; 
+			}
+
+			svg {
+				background-color: white;
+			}
+
+			rect {
+				fill: SteelBlue;
+			}
+
+			rect.highlight {
+				fill: DarkOrange; 
+			}
+
+			g.bar text {
+				font-family: sans-serif;
+				font-size: 11px;
+				fill: white;
+				font-style: bold;
+				text-anchor: middle;
+			}
+
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+
+			var dataset = d3.range(10).map(function (x) { return Math.floor(Math.random() * 20)});
+			var width = 500;
+			var height = 280;
+
+			var xScale = d3.scale.ordinal()
+								.domain(d3.range(dataset.length))
+								.rangeRoundBands([0, width], 0.05)
+
+			var yScale = d3.scale.linear()
+								.domain([0, d3.max(dataset)])
+								.rangeRound([height, 0])
+
+			var svg = d3.select("body").append("svg")
+											.attr("width", width)
+											.attr("height", height)
+
+			var groups = svg.selectAll("g")
+							.data(dataset)
+							.enter()
+							.append("g")
+							.attr("class", "bar")
+							.attr("transform", function (d, i) { return "translate(" + xScale(i) + ", 0)"});
+
+			var rects = groups.append("rect")
+							.attr("y", height)
+							.attr("width", xScale.rangeBand())
+							.attr("height", 0)
+							.classed("highlight", function (d, i) {
+								return d > 10
+							});
+
+			var texts = groups.append("text")
+							.attr("x", xScale.rangeBand() / 2)
+							.attr("y", function (d) {
+								return yScale(d) + 20;
+							})
+							.text(function (d) {
+								return d;
+							})
+
+			rects.append("title").text(function (d) { 
+				return d;
+			});
+
+			rects.transition()
+				.delay(function (d, i) {
+					return i * 100;
+				})
+				.duration(1000)								
+				.attr("y", function (d) {
+					return yScale(d);
+				})
+				.attr("height", function (d) {
+					return height - yScale(d); 	
+				})
+		</script>
+
+	</body>
+</html>
